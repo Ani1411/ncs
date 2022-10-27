@@ -3,3 +3,14 @@ frontend/node_modules
 *.DS_Store
 
 frontend/package-lock.json
+
+
+
+
+
+
+
+backend/venv
+backend/.idea
+*.pyc
+backend/api/migrations/*
