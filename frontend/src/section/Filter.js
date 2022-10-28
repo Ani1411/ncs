@@ -42,7 +42,7 @@ const Filters = ({search, program, sorting}) => {
         <DropDown
             title="Sort By"
             optionList={sortList}
-            value={sorting.sort}
+            value={sorting.sortBy}
             handleChange={sorting.handleSorting}
         />
     </div>
