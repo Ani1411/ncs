@@ -1,0 +1,46 @@
+.filter-section {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-around;
+    padding: 10px 20px;
+}
+
+.filter-section>div {
+    padding: 10px;
+}
+
+
+.search-input {
+    flex-grow: 1;
+}
+
+.search-input input {
+    border: none;
+    outline: none;
+    width: 80%;
+    border-bottom: 1px solid #a4a4a4;
+    font-size: 1.4rem;
+}
+
+.search-input input:focus {
+    border-bottom: 2px solid #1d1d1d;
+}
+
+
+@media (max-width: 768px) {
+
+    .filter-section {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .search-input input {
+        width: 100%;
+    }
+
+    .filter-section>div {
+        width: 100%;
+    }
+}
