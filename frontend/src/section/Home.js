@@ -29,6 +29,7 @@ const Home = () => {
                             desc={item.description}
                             year_of_release={item.release_year}
                             program_type={item.program_type}
+                            key={item.title}
                         />
                     })
                 }
