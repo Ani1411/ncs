@@ -1,19 +1,12 @@
 .cards-layout {
     padding: 2% 0;
-    /* padding: 50px; */
-    /* background-color: #1d1d1d; */
 }
 
 .cards-container {
     display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-row-gap: 3rem;
-
-  align-items: stretch;
-  justify-items: center;
-  margin: 0 5%;
-}
-
-.cards-container .movie-card{
-    flex: 1;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-row-gap: 3rem;
+    align-items: stretch;
+    justify-items: center;
+    margin: 0 5%;
 }

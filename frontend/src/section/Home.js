@@ -1,15 +1,14 @@
 
-import { useEffect, useState } from 'react'
+import { useContext } from 'react'
 import MovieCard from '../components/Card';
-import axios from 'axios'
+import { DataContext } from '../context/DataContext';
 import './../css/home.css'
-import { API_URL } from '../config';
 
-const Home = ({ data }) => {
+const Home = () => {
+    const { data } = useContext(DataContext)
     return (
         <div className="cards-layout">
             <div className='cards-container'>
-
                 {
                     data.map(item => {
                         return <MovieCard

@@ -2,37 +2,29 @@ import DropDown from "../components/dropdown"
 import '../css/filter.css'
 
 
+const Filters = ({ search, program, sort }) => {
 
-const SearchInput = ({ value, handleInputChange }) => {
-	return <div className='search-input'>
-		<input
-			type='text'
-			placeholder="Search with any Movie or Series name."
-			value={value}
-			onChange={handleInputChange} />
-	</div>
-}
+    const programList = [
+        { name: 'Movie', value: "movie" },
+        { name: 'Series', value: "series" }
+    ]
 
+    const sortList = [
+        { name: 'Title - Ascending', value: "title" },
+        { name: 'Title - Descending', value: "-title" },
+        { name: 'Release Year - Ascending', value: "release_year" },
+        { name: 'Release Year - Descending', value: "-release_year" },
+    ]
 
-const programList = [
-	{ name: 'Movie', value: "movie" }, 
-	{ name: 'Series', value: "series" }
-]
-const sortList = [
-	{ name: 'Title - Ascending', value: "title" },
-	{ name: 'Title - Descending', value: "-title" },
-	{ name: 'Release Year - Ascending', value: "release_year" },
-	{ name: 'Release Year - Descending', value: "-release_year" },
-]
-
-
-
-const Filters = ({search, program, sorting}) => {
     return <div className='filter-section'>
-        <SearchInput
-            value={search.query}
-            handleInputChange={search.handleInputChange}
-        />
+        <div className='search-input'>
+            <input
+                type='text'
+                placeholder="Search with any Movie or Series name."
+                value={search.query}
+                onChange={search.handleInputChange}
+            />
+        </div>
         <DropDown
             title="Select Program Type"
             optionList={programList}
@@ -42,10 +34,10 @@ const Filters = ({search, program, sorting}) => {
         <DropDown
             title="Sort By"
             optionList={sortList}
-            value={sorting.sortBy}
-            handleChange={sorting.handleSorting}
+            value={sort.sortBy}
+            handleChange={sort.handleSorting}
         />
     </div>
 }
 
-export default Filters
+export default Filters;

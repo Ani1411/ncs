@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import './App.css';
 import Navbar from './components/navbar';
 import { Loader } from './components/Loader';
@@ -6,81 +6,103 @@ import Home from './section/Home';
 import Filters from './section/Filter';
 import axios from 'axios';
 import { API_URL } from './config';
+import { DataContext } from './context/DataContext';
 
 
 const App = () => {
-	const [query, setQuery] = useState('');
-	const [movieList, setMovieList] = useState([]);
-	const [programType, setProgramType] = useState('');
-	const [sortBy, setSortBy] = useState('');
-	const [isLoading, setIsLoading] = useState(false);
-	const [hasError, setHasError] = useState(false);
-	const [errMsg, setErrMsg] = useState('');
+	const [filters, setFilters] = useState({
+		query: '',
+		programType: '',
+		sortBy: ''
+	})
+	const { query, programType, sortBy } = filters
+	const updateFilters = (nextFilters) => {
+		setFilters(prevFilters => {
+			return { ...prevFilters, ...nextFilters }
+		})
+	}
+
+	const [errContent, setError] = useState({
+		isError: false,
+		errMsg: ''
+	})
+	const { isError, errMsg } = errContent
+	const updateError = (nextError) => {
+		setError(prevError => {
+			return { ...prevError, ...nextError }
+		})
+	}
+
+
+	const [isLoading, setLoading] = useState(false);
+
+	const { data, setData } = useContext(DataContext)
 
 	useEffect(() => {
-		setIsLoading(true)
+		setLoading(true)
 		axios.get(API_URL + '/programs')
 			.then(res => {
-				console.log(res)
-				setIsLoading(false)
-					setHasError(false)
-					setMovieList(res.data.results)
+				setLoading(false)
+				updateError({ isError: false })
+				setData(res.data.results)
 			})
 	}, [])
 
 
 	const axiosInstance = (url) => {
-		setHasError(false)
-		setMovieList([])
-		setIsLoading(true)
+		updateError({ isError: false })
+		setData([])
+		setLoading(true)
 		axios.get(url)
 			.then(res => {
-				setIsLoading(false)
-				setMovieList(res.data.results)
+				setLoading(false)
+				setData(res.data.results)
 			})
-			.catch(error => {
-				console.log(error)
-				setIsLoading(false)
-				setHasError(true); setErrMsg(error.response.data.message);
+			.catch(err => {
+				setLoading(false)
+				updateError({
+					isError: true, errMsg: err.response.data.message
+				})
 			});
 	}
 
 
 	const handleInputChange = (e) => {
 		var inputValue = e.target.value
-		setQuery(inputValue)
+		updateFilters({ query: inputValue })
 		if (inputValue.length === 0) {
 			axios.get(API_URL + '/programs')
 				.then(res => {
-					console.log(res)
-					setIsLoading(false)
-					setHasError(false)
-					setMovieList(res.data.results)
+					setLoading(false)
+					updateError({ isError: false })
+					setData(res.data.results)
 				})
 		}
 		else if (inputValue.length < 3 && inputValue.length > 0) {
-			setMovieList([])
-			setHasError(true); setErrMsg('Query must be greater than 3 characters');
+			setData([])
+			updateError({
+				isError: true, errMsg: 'Query must be greater than 3 characters'
+			})
 		}
 		else {
-			setHasError(false)
-			setMovieList([])
+			updateError({ isError: false })
+			setData([])
 			const url = `${API_URL}/programs?search_query=${inputValue}&program_type=${programType}&order_by=${sortBy}`
 			axiosInstance(url)
 		}
 	}
 
 	const handleProgramTypeChange = (e) => {
-		setProgramType(e.target.value)
-		const url = `${API_URL}/programs?search_query=${query}&program_type=${e.target.value}&order_by=${sortBy}`
+		var program_type = e.target.value
+		updateFilters({ programType: program_type })
+		const url = `${API_URL}/programs?search_query=${query}&program_type=${program_type}&order_by=${sortBy}`
 		axiosInstance(url)
-		
-		
 	}
 
 	const handleSorting = (e) => {
-		setSortBy(e.target.value)
-		const url = `${API_URL}/programs?search_query=${query}&program_type=${programType}&order_by=${e.target.value}`
+		var order_by = e.target.value
+		updateFilters({ sortBy: order_by })
+		const url = `${API_URL}/programs?search_query=${query}&program_type=${programType}&order_by=${order_by}`
 		axiosInstance(url)
 	}
 
@@ -91,12 +113,16 @@ const App = () => {
 				<Filters
 					search={{ query, handleInputChange }}
 					program={{ programType, handleProgramTypeChange }}
-					sorting={{ sortBy, handleSorting }}
+					sort={{ sortBy, handleSorting }}
 				/>
-				{isLoading && <Loader />}
-				{hasError && <div className='error-msg'>{errMsg}</div>}
 				{
-					movieList.length > 0 && <Home data={movieList} />
+					isLoading && <Loader />
+				}
+				{
+					isError && <div className='error-msg'>{errMsg}</div>
+				}
+				{
+					data.length > 0 && <Home />
 				}
 			</div>
 		</div>
