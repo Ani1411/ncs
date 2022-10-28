@@ -24,9 +24,8 @@ class MoviesView(APIView):
                 response = {'results': self.queryset.values()[:30], 'message': SUCCESS_DATA_FETCH_MESSAGE}
                 return Response(response, status=status.HTTP_200_OK)
             else:
-                response = {'results': self.queryset.values(),
-                            'message': f"No data found with the title: {queries['search_query']} and given filters"}
+                response = {'results': self.queryset.values(), 'message': NO_DATA_FETCH_MESSAGE}
                 return Response(response, status=status.HTTP_400_BAD_REQUEST)
-        queryset = self.queryset.filter(release_year__gte=2010).order_by('title').values()[:30]
-        response = {'results': queryset, 'message': SUCCESS_DATA_FETCH_MESSAGE}
+        self.queryset = self.queryset.filter(release_year__gte=2010).order_by('title')
+        response = {'results': self.queryset.values()[:30], 'message': SUCCESS_DATA_FETCH_MESSAGE}
         return Response(response, status=status.HTTP_200_OK)
