@@ -14,7 +14,7 @@ class MoviesView(APIView):
     def get(self, request):
         queries = request.query_params
         if len(queries):
-            if 'search_query' in queries and queries['search_query']:
+            if 'search_query' in queries and len(queries['search_query']) >= 3:
                 self.queryset = self.queryset.filter(title__icontains=queries['search_query']).values()
             if 'program_type' in queries and queries['program_type']:
                 self.queryset = self.queryset.filter(program_type=queries['program_type'])
