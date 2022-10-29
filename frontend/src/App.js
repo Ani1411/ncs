@@ -7,6 +7,7 @@ import Filters from './section/Filter';
 import axios from 'axios';
 import { API_URL } from './config';
 import { DataContext } from './context/DataContext';
+import Footer from './components/footer';
 
 
 const App = () => {
@@ -68,17 +69,10 @@ const App = () => {
 
 
 	const handleInputChange = (e) => {
-		var inputValue = e.target.value
-		updateFilters({ query: inputValue })
-		if (inputValue.length === 0) {
-			axios.get(API_URL + '/programs')
-				.then(res => {
-					setLoading(false)
-					updateError({ isError: false })
-					setData(res.data.results)
-				})
-		}
-		else if (inputValue.length < 3 && inputValue.length > 0) {
+		var input_value = e.target.value
+		updateFilters({ query: input_value })
+
+		if (input_value.length < 3 && input_value.length > 0) {
 			setData([])
 			updateError({
 				isError: true, errMsg: 'Query must be greater than 3 characters'
@@ -87,7 +81,7 @@ const App = () => {
 		else {
 			updateError({ isError: false })
 			setData([])
-			const url = `${API_URL}/programs?search_query=${inputValue}&program_type=${programType}&order_by=${sortBy}`
+			const url = `${API_URL}/programs?search_query=${input_value}&program_type=${programType}&order_by=${sortBy}`
 			axiosInstance(url)
 		}
 	}
@@ -109,7 +103,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<Navbar />
-			<div className='main-container' style={{ padding: 20 }}>
+			<div className='main-container' style={{ padding: 20, marginTop: '2%' }}>
 				<Filters
 					search={{ query, handleInputChange }}
 					program={{ programType, handleProgramTypeChange }}
@@ -125,6 +119,7 @@ const App = () => {
 					data.length > 0 && <Home />
 				}
 			</div>
+			<Footer/>
 		</div>
 	);
 }
