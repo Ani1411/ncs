@@ -1,0 +1,13 @@
+
+select.dropdown {
+    padding: 10px 5px;
+    background-color: var(--default-wht-color);
+    border: unset;
+    outline: unset;
+    border-bottom: 1px solid #1d1d1d;
+    margin: 0;
+    width: 100%;
+    font-size: 1.3rem;
+    cursor: pointer;
+    line-height: inherit;
+  }

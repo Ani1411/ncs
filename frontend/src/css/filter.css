@@ -16,11 +16,13 @@
 }
 
 .search-input input {
+    padding: 10px 5px;
     border: none;
     outline: none;
     width: 50%;
     border-bottom: 1px solid #a4a4a4;
     font-size: 1.4rem;
+    background-color: var(--default-wht-color);
 }
 
 .search-input input:focus {

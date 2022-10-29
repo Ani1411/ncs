@@ -1,5 +1,3 @@
-
-
 import './card.css'
 
 const MovieCard = ({ title, img_url, desc, year_of_release, program_type }) => {
@@ -12,7 +10,7 @@ const MovieCard = ({ title, img_url, desc, year_of_release, program_type }) => {
             </div>
             <div className="card-content">
                 <div className="card-details">
-                    <span className="title"><strong>{title}</strong></span>
+                    <span className="title fw700">{title}</span>
                     <span className="program-type">{program_type}</span>
                 </div>
                 <div className="year-of-release">{year_of_release}</div>

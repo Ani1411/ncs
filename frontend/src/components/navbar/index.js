@@ -4,11 +4,9 @@ import './nav.css'
 const Navbar = () => {
     return <nav>
         <div>
-            <h2>STREAMSITE</h2>
+            <span className='logo fw500'>StreamSite</span>
         </div>
-        <div>
-            <span>Account</span>
-        </div>
+       
     </nav>
 }
 
