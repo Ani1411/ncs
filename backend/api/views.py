@@ -20,6 +20,8 @@ class MoviesView(APIView):
                 self.queryset = self.queryset.filter(program_type=queries['program_type'])
             if 'order_by' in queries and len(queries['order_by']):
                 self.queryset = self.queryset.order_by(queries['order_by'])
+            # else:
+            #     self.queryset = self.queryset.order_by('?')
             if len(self.queryset.values()):
                 response = {'results': self.queryset.values()[:30], 'message': SUCCESS_DATA_FETCH_MESSAGE}
                 return Response(response, status=status.HTTP_200_OK)
